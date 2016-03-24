@@ -1,4 +1,4 @@
-# CSPEC N - Titanium Packagers Support
+# CSPEC 4 - Titanium Packagers Support
 
 This [CSPEC][] is for adding official packaging abilities on Titanium. More precisely its aim is to define how [npm][]-like semantics will work on Titanium.
 
