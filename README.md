@@ -145,12 +145,12 @@ The proposal is made of smaller, partially autonomous sub-proposals.
 
 #### The Working-area Structure
 
-- [ ] Sub-proposal: Use npm/Node.js modules layout
-- [ ] Sub-proposal: Use jspm modules layout
+- [ ] Sub-proposal: [Use npm/Node.js modules layout](sub/layout/use-npm-node-js-modules-layout.md)
+- [ ] Sub-proposal: [Use jspm modules layout](sub/layout/use-jspm-modules-layout.md)
 
 #### The Compilation Process
 
-- [ ] Sub-proposal: White/black/gray-listing files
+- [ ] Sub-proposal: [White/black/gray-listing files](sub/build/white-black-gray-listing-files.md)
 - [ ] Sub-proposal: Ensuring development and production consistency
 - [ ] Sub-proposal: Making source pre-processing work
 - [ ] Sub-proposal: Ensuring Node.js `≥4` environment compatibility
