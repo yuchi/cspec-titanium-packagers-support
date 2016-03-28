@@ -150,7 +150,7 @@ The proposal is made of smaller, partially autonomous sub-proposals.
 
 #### The Compilation Process
 
-- [ ] Sub-proposal: [White/black/gray-listing files](sub/build/white-black-gray-listing-files.md)
+- [x] Sub-proposal: [White/black/gray-listing files](sub/build/white-black-gray-listing-files.md)
 - [ ] Sub-proposal: Ensuring development and production consistency
 - [ ] Sub-proposal: Making source pre-processing work
 - [ ] Sub-proposal: Ensuring Node.js `≥4` environment compatibility
