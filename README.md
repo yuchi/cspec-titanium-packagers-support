@@ -67,7 +67,7 @@ The ability for developers to share libraries and packaged functionalities has b
 3. A registry, either centralized or distributed, that hosts the list of packages available for download.
 4. A tool or a toolchain that helps in enforcing both the semantics and the protocol, as well as helping accessing the registry.
 
-In the case of JavaScript the most successful solution is *npm* (which is by number the most successful package manager of all languages and environments). We can define those four requirements for *npm* as follows:
+In the case of JavaScript the most successful solution is *npm* (which is by number the most successful package manager of all languages and environments). We can define those four requirements for *npm* as follows.
 
 #### Npm and Node.js semantics
 
@@ -98,9 +98,68 @@ That means that in the next Fig. 1 the result from calling `require('underscore'
 >
 > Fig. 1 — A sample Node.js directory structure with the resolution visualized.
 
+There are however different scenarios, where different callers resolve to the same callee, by searching parent directories for a *node_modules* directory. Fig. 2 shows a modified *MyApp* project where both `require()` the same *module*.
+
+>     • MyApp/
+>       ├─ index.js   >────────────────── require('underscore')
+>       ├─ package.json                            ═════╤════
+>       └─ node_modules/                                │
+>          ├─ backbone/                                 │
+>          │  ├─ index.js   >── require('underscore')   │
+>          │  └─ package.json            ═════╤════     │
+>          └─ underscore/ ╌╌─┰────────────────┴─────────╯
+>             ├─ index.js  <━┛
+>             └─ package.json
+>
+> Fig. 2 — A sample Node.js directory structure with the resolution visualized.
+
+Npm CLI since version 3 actively tries to flatten the installed modules nesting in order to reduce nesting and to de-duplicate packages as much as possible.
+
+This directory structure is not necessary for this semantics to work, you can indeed make it work just by implementing them. You can see a reduced example of how [jspm][] does it in Fig. 3.
+
+>     • MyApp/
+>       ├─ index.js   >────────────────── require('underscore')
+>       ├─ package.json                            ═════╤════
+>       └─ jspm_modules/                                │
+>          ├─ npm/backbone/1.0.3/                       │
+>          │  ├─ index.js  >── require('underscore')    │
+>          │  └─ package.json           ═════╤════      │
+>          ├─ npm/underscore/1.2.0/  ╌╌─┰────╯          │
+>          │  ├─ index.js  <━━━━━━━━━━━━┛               │
+>          │  └─ package.json                           │
+>          └─ npm/underscore/1.4.0/  ╌╌─┰───────────────╯
+>             ├─ index.js  <━━━━━━━━━━━━┛
+>             └─ package.json
+>
+> Fig. 3 — The directory structure created by *jspm* still supports the caller-dependent resolution algorithm, by moving the knowledge of the dependency ranges from the installation phase to the dependency wiring phase.
+
+[jspm]: https://github.com/jspm
+
+#### The npm Registry and the CLI
+
+In order for packages to be published, searchable and downloadable a *global, trusted registry* must be available. In the case of npm it’s a centralized persistence with very low friction for publishers.
+
 ## Proposal
 
-The proposal would be to ....
+The proposal is made of smaller, partially autonomous sub-proposals.
+
+#### The Working-area Structure
+
+- [ ] Sub-proposal: Use npm/Node.js modules layout
+- [ ] Sub-proposal: Use jspm modules layout
+
+#### The Compilation Process
+
+- [ ] Sub-proposal: White/black/gray-listing files
+- [ ] Sub-proposal: Ensuring development and production consistency
+- [ ] Sub-proposal: Making source pre-processing work
+- [ ] Sub-proposal: Ensuring Node.js `≥4` environment compatibility
+- [ ] Sub-proposal: Making HMR and code-push work
+
+#### The Runtime Structure
+
+- [ ] Sub-proposal: Changes to the module loading algorithm
+- [ ] Sub-proposal: Changes to the environment
 
 ## Timeline
 
@@ -108,7 +167,8 @@ The goal of this proposal is to ...
 
 ## Status
 
-DATE - Initial Draft
+- 2016-03-28 - Smaller changes and proposal laid in sections
+- 2016-03-24 - Initial Draft
 
 ## Legal Stuff
 
